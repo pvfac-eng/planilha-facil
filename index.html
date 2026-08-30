@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Planilha Fácil</title>
+  
+  <!-- CSS Externo -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Biblioteca para gerar o arquivo Excel -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+
+  <header>
+    <div class="logo"><span>PF</span> Planilha Fácil</div>
+    <button class="btn btn-primary" onclick="exportExcel()">⬇ Baixar Excel (.xlsx)</button>
+  </header>
+
+  <main>
+    <!-- Navegação de Etapas -->
+    <div class="steps-bar">
+      <button class="step-btn active" id="btn-step-1" onclick="goToStep(1)"><span class="step-number">1</span> Criar Tabela</button>
+      <button class="step-btn" id="btn-step-2" onclick="goToStep(2)"><span class="step-number">2</span> Preencher</button>
+      <button class="step-btn" id="btn-step-3" onclick="goToStep(3)"><span class="step-number">3</span> Calcular</button>
+      <button class="step-btn" id="btn-step-4" onclick="goToStep(4)"><span class="step-number">4</span> Organizar</button>
+      <button class="step-btn" id="btn-step-5" onclick="goToStep(5)"><span class="step-number">5</span> Baixar</button>
+    </div>
+
+    <!-- ETAPA 1: CRIAR TABELA -->
+    <section id="panel-1" class="panel">
+      <div class="panel-header">1. Defina o nome e as colunas da sua planilha</div>
+      <div class="form-group" style="max-width: 300px;">
+        <label>Nome da Tabela</label>
+        <input type="text" id="table-name-input" value="Estoque" onchange="updateTableName()">
+      </div>
+
+      <label style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); display: block; margin-bottom: 0.5rem;">Colunas</label>
+      <div id="columns-builder-list"></div>
+
+      <div style="margin-top: 1rem; display: flex; gap: 0.5rem;">
+        <button class="btn btn-secondary" onclick="addColumnToBuilder()">+ Adicionar Coluna</button>
+        <button class="btn btn-primary" onclick="generateTableFromBuilder()">Gerar Tabela</button>
+      </div>
+    </section>
+
+    <!-- ETAPA 3: CALCULAR -->
+    <section id="panel-3" class="panel hidden">
+      <div class="panel-header">3. Fazer cálculos sem fórmulas</div>
+      <div class="grid-2">
+        <div class="form-group">
+          <label>Operação</label>
+          <select id="calc-operation">
+            <option value="mult">Multiplicar (Ex: Quantidade × Preço)</option>
+            <option value="sub">Subtrair (Ex: Valor − Desconto)</option>
+            <option value="soma">Somar duas colunas</option>
+            <option value="div">Dividir (Ex: Total ÷ Pessoas)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Primeiro valor</label>
+          <select id="calc-col1"></select>
+        </div>
+        <div class="form-group">
+          <label>Segundo valor</label>
+          <select id="calc-col2"></select>
+        </div>
+        <div class="form-group">
+          <label>Nome da Coluna de Resultado</label>
+          <input type="text" id="calc-target-name" value="Total">
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="executeCalculation()">Calcular</button>
+    </section>
+
+    <!-- ETAPA 4: ORGANIZAR -->
+    <section id="panel-4" class="panel hidden">
+      <div class="panel-header">4. Organizar Tabela</div>
+      <div class="grid-2" style="align-items: flex-end;">
+        <div class="form-group">
+          <label>Coluna para Ordenar</label>
+          <select id="sort-col-select"></select>
+        </div>
+        <div class="form-group">
+          <label>Ordem</label>
+          <select id="sort-direction">
+            <option value="asc">A → Z (Crescente)</option>
+            <option value="desc">Z → A (Decrescente)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-secondary" onclick="applySort()">Ordenar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ETAPA 5: BAIXAR -->
+    <section id="panel-5" class="panel hidden">
+      <div class="panel-header">5. Baixar em Excel</div>
+      <p style="margin-bottom: 1rem; color: var(--text-muted);">Sua planilha está pronta para download no formato .xlsx.</p>
+      <button class="btn btn-primary" onclick="exportExcel()">⬇ Baixar Arquivo Excel (.xlsx)</button>
+    </section>
+
+    <!-- TABELA PRINCIPAL DE DADOS -->
+    <section class="panel" id="main-table-section">
+      <div class="toolbar-table">
+        <h3 id="display-table-name">Estoque</h3>
+        <div style="display: flex; gap: 0.5rem;">
+          <button class="btn btn-secondary" onclick="openRecordModal()">+ Inserir Registro</button>
+          <button class="btn btn-secondary" onclick="addRowDirect()">+ Linha em Branco</button>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead><tr id="table-header-row"></tr></thead>
+          <tbody id="table-body"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- MODAL PARA INSERIR REGISTRO -->
+  <div id="record-modal" class="modal-backdrop hidden">
+    <div class="modal-content">
+      <div class="panel-header">Novo Registro</div>
+      <form id="record-form" onsubmit="handleRecordSubmit(event)">
+        <div id="modal-fields-container"></div>
+        <div style="display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 1rem;">
+          <button type="button" class="btn btn-secondary" onclick="closeRecordModal()">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- JS Externo -->
+  <script src="script.js"></script>
+</body>
+</html>

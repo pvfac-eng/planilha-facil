@@ -1,0 +1,255 @@
+:root {
+  --primary: #10b981;
+  --primary-hover: #059669;
+  --primary-light: #ecfdf5;
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --text: #0f172a;
+  --text-muted: #64748b;
+  --border: #cbd5e1;
+  --border-light: #e2e8f0;
+  --danger: #ef4444;
+  --radius: 8px;
+}
+
+* { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+}
+
+body { 
+  font-family: system-ui, -apple-system, sans-serif; 
+  background-color: var(--bg); 
+  color: var(--text); 
+  padding-bottom: 40px; 
+}
+
+header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border-light);
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo { 
+  font-size: 1.25rem; 
+  font-weight: 800; 
+  color: var(--primary); 
+  display: flex; 
+  align-items: center; 
+  gap: 0.5rem; 
+}
+
+.logo span { 
+  background: var(--primary); 
+  color: white; 
+  padding: 2px 8px; 
+  border-radius: 6px; 
+}
+
+main { 
+  max-width: 1000px; 
+  margin: 2rem auto; 
+  padding: 0 1rem; 
+}
+
+.steps-bar { 
+  display: flex; 
+  gap: 0.5rem; 
+  margin-bottom: 1.5rem; 
+  background: var(--surface); 
+  padding: 0.5rem; 
+  border-radius: var(--radius); 
+  border: 1px solid var(--border-light); 
+  overflow-x: auto; 
+}
+
+.step-btn { 
+  flex: 1; 
+  min-width: 120px; 
+  padding: 0.6rem; 
+  text-align: center; 
+  border: none; 
+  background: transparent; 
+  font-size: 0.85rem; 
+  font-weight: 600; 
+  color: var(--text-muted); 
+  border-radius: 6px; 
+  cursor: pointer; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  gap: 0.4rem; 
+}
+
+.step-btn.active { 
+  background: var(--primary-light); 
+  color: var(--primary); 
+  font-weight: 700; 
+}
+
+.step-number { 
+  width: 20px; 
+  height: 20px; 
+  border-radius: 50%; 
+  background: var(--border-light); 
+  color: var(--text-muted); 
+  font-size: 0.75rem; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+}
+
+.step-btn.active .step-number { 
+  background: var(--primary); 
+  color: white; 
+}
+
+.panel { 
+  background: var(--surface); 
+  border: 1px solid var(--border-light); 
+  border-radius: var(--radius); 
+  padding: 1.5rem; 
+  margin-bottom: 1.5rem; 
+}
+
+.panel-header { 
+  font-size: 1.1rem; 
+  font-weight: 700; 
+  margin-bottom: 1rem; 
+}
+
+.hidden { 
+  display: none !important; 
+}
+
+.form-group { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 0.35rem; 
+  margin-bottom: 1rem; 
+}
+
+.form-group label { 
+  font-size: 0.85rem; 
+  font-weight: 600; 
+  color: var(--text-muted); 
+}
+
+input[type="text"], 
+input[type="number"], 
+input[type="date"], 
+select { 
+  padding: 0.55rem 0.75rem; 
+  border: 1px solid var(--border); 
+  border-radius: 6px; 
+  font-size: 0.9rem; 
+  width: 100%; 
+}
+
+.grid-2 { 
+  display: grid; 
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+  gap: 1rem; 
+}
+
+.column-builder-item { 
+  display: flex; 
+  gap: 0.5rem; 
+  align-items: center; 
+  margin-bottom: 0.5rem; 
+}
+
+.btn { 
+  padding: 0.6rem 1rem; 
+  border-radius: 6px; 
+  font-weight: 600; 
+  font-size: 0.875rem; 
+  border: none; 
+  cursor: pointer; 
+  display: inline-flex; 
+  align-items: center; 
+  justify-content: center; 
+  gap: 0.4rem; 
+}
+
+.btn-primary { 
+  background: var(--primary); 
+  color: white; 
+}
+
+.btn-primary:hover { 
+  background: var(--primary-hover); 
+}
+
+.btn-secondary { 
+  background: #f1f5f9; 
+  color: var(--text); 
+  border: 1px solid var(--border); 
+}
+
+.btn-danger { 
+  background: #fef2f2; 
+  color: var(--danger); 
+  border: 1px solid #fca5a5; 
+}
+
+.toolbar-table { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  flex-wrap: wrap; 
+  gap: 0.75rem; 
+  margin-bottom: 1rem; 
+}
+
+.table-container { 
+  overflow-x: auto; 
+  border: 1px solid var(--border); 
+  border-radius: 6px; 
+  max-height: 400px; 
+}
+
+table { 
+  width: 100%; 
+  border-collapse: collapse; 
+  background: white; 
+  font-size: 0.9rem; 
+  text-align: left; 
+}
+
+th { 
+  background: #f8fafc; 
+  padding: 0.75rem; 
+  border: 1px solid var(--border-light); 
+  font-weight: 700; 
+}
+
+td { 
+  padding: 0.55rem 0.75rem; 
+  border: 1px solid var(--border-light); 
+}
+
+.modal-backdrop { 
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  width: 100%; 
+  height: 100%; 
+  background: rgba(0,0,0,0.4); 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  z-index: 200; 
+}
+
+.modal-content { 
+  background: white; 
+  padding: 1.5rem; 
+  border-radius: var(--radius); 
+  width: 90%; 
+  max-width: 450px; 
+}
